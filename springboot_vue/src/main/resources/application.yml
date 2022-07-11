@@ -1,0 +1,27 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seckill?useSSL=false&amp
+    username: root
+    password: root
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    database: 0
+#    timeout: 10000ms
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-wait: 100000ms
+#        max-idle: 10
+#        min-idle: 3
+server:
+  port: 8090
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.example.demo.pojo
+#  configuration:
+#    在控制台打印输出SQL语句
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
