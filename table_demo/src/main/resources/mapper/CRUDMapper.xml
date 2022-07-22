@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.springboot_vue.mapper.crud.CRUDMapper">
+
+    <select id="select" resultType="map">
+        select
+        <foreach collection="columns.keys" item="key" separator=",">
+            ${key}
+        </foreach>
+        from ${table}
+        <if test="condition != null">
+            where 1=1
+            <foreach collection="condition.entrySet()" item="value" index="key">
+                and ${key} = #{value}
+            </foreach>
+        </if>
+        limit #{start}, #{end}
+# 这种写法也可以
+<!--        <if test="condition != null">-->
+<!--            where 1=1-->
+<!--            <foreach collection="condition.keys" item="key" >-->
+<!--                and ${key} = #{condition[${key}]}-->
+<!--            </foreach>-->
+<!--        </if>-->
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from ${table}
+        <if test="condition != null">
+            where 1=1
+            <foreach collection="condition.entrySet()" item="value" index="key">
+                and ${key} = #{value}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="insert" >
+        insert into ${table}
+        <foreach collection="columns.keys" item="key" separator="," open="(" close=")">
+            ${key}
+        </foreach>
+        values
+        <foreach collection="columns.keys" item="key" separator="," open="(" close=")">
+            #{columns[${key}]}
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update ${table}
+        set
+        <foreach collection="columns.keys" item="key" separator="," >
+            ${key} = #{columns[${key}]}
+        </foreach>
+        <if test="condition != null">
+            where true
+            <foreach collection="condition.entrySet()" item="value" index="key">
+                and ${key} = #{value}
+            </foreach>
+        </if>
+    </update>
+
+    <delete id="delete" >
+        delete from
+        ${table}
+        where true
+        <foreach collection="condition.entrySet()" item="value" index="key">
+            and ${key} = #{value}
+        </foreach>
+    </delete>
+</mapper>
